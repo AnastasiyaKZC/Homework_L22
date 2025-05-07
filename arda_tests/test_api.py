@@ -1,35 +1,30 @@
 import requests
 import allure
-import logging
-from datetime import datetime
+from conftest import log_request_and_response
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s — %(levelname)s — %(message)s"
-)
+@allure.epic("Главная страница")
+@allure.feature("Доступность страницы")
+@allure.story("GET-запрос на / возвращает 200 OK")
+@allure.severity(allure.severity_level.CRITICAL)
+def test_main_page_is_available(base_url):
+    url = f"{base_url}/"
 
-BASE_URL = "https://it.arda.digital"
-
-@allure.epic("API")
-@allure.feature("GET Main Page")
-@allure.story("Check site availability")
-def test_main_page_is_available():
-    endpoint = "/"
-    url = f"{BASE_URL}{endpoint}"
-
-    with allure.step(f"GET {url}"):
+    with allure.step("Отправка GET-запроса на главный endpoint"):
         response = requests.get(url)
+        log_request_and_response(response)
 
-        allure.attach(
-            name="Response body",
-            body=response.text,
-            attachment_type=allure.attachment_type.HTML
-        )
-        allure.attach(
-            name="Status code",
-            body=str(response.status_code),
-            attachment_type=allure.attachment_type.TEXT
-        )
+    assert response.status_code == 200
 
-    logging.info(f"{datetime.now()} — GET {url} — {response.status_code}")
-    assert response.status_code == 200, "Ожидается статус 200 OK"
+
+@allure.epic("Обработка ошибок")
+@allure.feature("Некорректные маршруты")
+@allure.story("GET-запрос на несуществующий URL возвращает 404")
+@allure.severity(allure.severity_level.NORMAL)
+def test_page_not_found(base_url):
+    url = f"{base_url}/blabla"
+
+    with allure.step("Отправка GET-запроса на несуществующий endpoint"):
+        response = requests.get(url)
+        log_request_and_response(response)
+
+    assert response.status_code == 404

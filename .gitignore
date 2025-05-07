@@ -175,4 +175,4 @@ cython_debug/
 
 #Allure
 allure-results/
-allure-report/
+arda_tests/allure-results
