@@ -67,3 +67,19 @@ def test_successful_login(base_url, credentials):
         log_request_and_response(response)
 
     assert response.status_code == 200
+
+
+
+@allure.epic("API тесты")
+@allure.feature("Редиректы")
+@allure.story("GET-запрос на http:// редиректит на https://")
+@allure.severity(allure.severity_level.NORMAL)
+def test_http_redirect_to_https():
+    url = "http://it.arda.digital"
+
+    with allure.step("Отправка GET-запроса по HTTP без следования редиректу"):
+        response = requests.get(url, allow_redirects=False)
+        log_request_and_response(response)
+
+    assert response.status_code in [301, 302], "Ожидается редирект"
+    assert response.headers.get("Location", "").startswith("https://"), "Ожидается редирект на HTTPS"
