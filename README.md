@@ -47,7 +47,6 @@
 - [x] Проверка некорректных URL - GET https://it.arda.digital/blabla Статус: 404 Not Found
 - [x] Проверка успешной авторизации - POST https://it.arda.digital/api/users/verify Ожидаемый статус-код: 200 OK
 - [x] Проверка неуспешной авторизации (неверный пароль) POST https://it.arda.digital/api/users/verify Ожидаемый статус-код: 400 Bad Request
-- [x] Проверка отправки письма для восстановления пароля POST https://it.arda.digital/api/auth/forgot-password Ожидаемый статус-код: 200 OK
 
 
 
