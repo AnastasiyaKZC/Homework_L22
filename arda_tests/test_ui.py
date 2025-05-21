@@ -1,7 +1,6 @@
 import allure
 from selene import have, be
 
-
 # @allure.epic("Landing Page Tests")
 # @allure.feature("Header")
 # @allure.story("Логотип должен отображаться в хедере")
@@ -41,7 +40,7 @@ from selene import have, be
 #         setup_browser.should(have.url("https://arda.digital/"))
 
 @allure.epic("UI тесты")
-@allure.feature("Хедер")
+@allure.feature("Лендинг")
 @allure.story("Логотип должен отображаться в хедере")
 @allure.severity(allure.severity_level.NORMAL)
 def test_logo_is_visible(setup_browser):
@@ -52,7 +51,7 @@ def test_logo_is_visible(setup_browser):
 
 
 @allure.epic("UI тесты")
-@allure.feature("Форма регистрации")
+@allure.feature("Лендинг")
 @allure.story("Форма регистрации должна открываться по клику на кнопку")
 @allure.severity(allure.severity_level.CRITICAL)
 def test_registration_form_opens(setup_browser):
@@ -67,7 +66,7 @@ def test_registration_form_opens(setup_browser):
 
 
 @allure.epic("UI тесты")
-@allure.feature("Навигация")
+@allure.feature("Лендинг")
 @allure.story("Переход по ссылке arda.digital")
 @allure.severity(allure.severity_level.NORMAL)
 def test_learn_more_link(setup_browser):
