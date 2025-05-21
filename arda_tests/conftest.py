@@ -28,7 +28,6 @@ def credentials():
         "password": password
     }
 
-
 # Настройка логирования
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -104,16 +103,3 @@ def setup_browser():
     browser.quit()
 
 load_dotenv()  # Подгружаем переменные из .env
-
-@pytest.fixture(scope="session")
-def auth_credentials():
-    email = os.getenv("UI_EMAIL")
-    password = os.getenv("UI_PASSWORD")
-
-    if not email or not password:
-        raise EnvironmentError("UI_EMAIL или UI_PASSWORD не заданы в .env")
-
-    return {
-        "email": email,
-        "password": password
-    }

@@ -8,7 +8,7 @@ class AuthPage:
     def open(self):
         """Открываем страницу авторизации"""
         with allure.step("Открываем страницу https://it.arda.digital"):
-            self.browser.open("https://arda.ws-dev.ru/")  # ✅ Используем self.browser
+            self.browser.open("https://it.arda.digital")  # ✅ Используем self.browser
         return self
 
     def open_auth_form(self):

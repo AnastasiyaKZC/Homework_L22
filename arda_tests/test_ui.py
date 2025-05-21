@@ -92,18 +92,19 @@ def test_invalid_password(setup_browser):
     # Проверяем, что отображается ошибка авторизации
     setup_browser.element(".text-red").should(be.visible)
 
+
 @allure.epic("UI тесты")
 @allure.feature("Форма авторизации")
 @allure.story("Пользователь успешно авторизуется")
 @allure.severity(allure.severity_level.CRITICAL)
-def test_successful_authorization_2(setup_browser, auth_credentials):
+def test_successful_authorization(setup_browser, credentials):
     auth_page = AuthPage(setup_browser)
     main_page = MainPage(setup_browser)
     (
         auth_page.open()
         .open_auth_form()
-        .enter_email(auth_credentials["email"])
-        .enter_password(auth_credentials["password"])
+        .enter_email(credentials["identifier"])
+        .enter_password(credentials["password"])
         .submit()
     )
     main_page.should_have_user_menu()
