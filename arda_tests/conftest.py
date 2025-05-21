@@ -1,5 +1,3 @@
-
-import pytest
 import logging
 import allure
 from allure_commons.types import AttachmentType

@@ -1,4 +1,3 @@
-import allure
 from selene import have, be
 import allure
 from pages.auth_page import AuthPage
