@@ -53,11 +53,16 @@
 ## Установка
 ```sh
 pip install -r requirements.txt  # Установка зависимостей
---alluredir=./allure-results - #run configuration, additional arguments (указать для каждого файла и директории с тестами 
-#для формирования аллюр отчета)
+
 ```
 
 ## Запуск тестов
+
+```
+--alluredir=./allure-results - #run configuration, additional arguments (указать для каждого файла и директории с тестами 
+для формирования аллюр отчета)
+```
+
 ```sh
 pytest tests/ # Запуск всех тестов в проекте
 ```
