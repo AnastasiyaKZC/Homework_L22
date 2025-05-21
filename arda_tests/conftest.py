@@ -17,11 +17,11 @@ load_dotenv()
 
 @pytest.fixture(scope="session")
 def credentials():
-    identifier = os.getenv("API_IDENTIFIER")
-    password = os.getenv("API_PASSWORD")
+    identifier = os.getenv("IDENTIFIER")
+    password = os.getenv("PASSWORD")
 
     if not identifier or not password:
-        raise EnvironmentError("Не заданы переменные API_IDENTIFIER или API_PASSWORD в .env")
+        raise EnvironmentError("Не заданы переменные IDENTIFIER или PASSWORD в .env")
 
     return {
         "identifier": identifier,
