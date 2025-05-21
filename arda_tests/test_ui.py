@@ -96,14 +96,14 @@ def test_invalid_password(setup_browser):
 @allure.feature("Форма авторизации")
 @allure.story("Пользователь успешно авторизуется")
 @allure.severity(allure.severity_level.CRITICAL)
-def test_successful_authorization_2(setup_browser):
-    auth_page = AuthPage(setup_browser)  # ✅ Передаем browser в AuthPage
-    main_page = MainPage(setup_browser)  # ✅ Передаем browser в MainPage
+def test_successful_authorization_2(setup_browser, auth_credentials):
+    auth_page = AuthPage(setup_browser)
+    main_page = MainPage(setup_browser)
     (
         auth_page.open()
         .open_auth_form()
-        .enter_email("member@arda.digital")
-        .enter_password("111111")
+        .enter_email(auth_credentials["email"])
+        .enter_password(auth_credentials["password"])
         .submit()
     )
     main_page.should_have_user_menu()
