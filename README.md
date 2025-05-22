@@ -64,11 +64,11 @@ pip install -r requirements.txt  # Установка зависимостей
 ```
 
 ```sh
-pytest tests/ # Запуск всех тестов в проекте
+pytest arda_tests/ # Запуск всех тестов в проекте
 ```
 
 ```sh
-pytest -v tests/  # Запуск всех тестов с детальным логом
+pytest -v arda_tests/  # Запуск всех тестов с детальным логом
 ```
 
 ```sh
