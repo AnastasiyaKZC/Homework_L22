@@ -53,51 +53,48 @@ def log_request_and_response(response):
     allure.attach("Response Body", response.text, AttachmentType.JSON)
 
 
-# @pytest.fixture(scope='function')
-# def setup_browser():
-#     """Настраивает и возвращает браузер в selenoid перед тестами."""
-#     options = Options()
-#     options.set_capability("browserName", "chrome")
-#     options.set_capability("browserVersion", "128.0")
-#     options.set_capability("selenoid:options", {
-#         "enableVNC": True,
-#         "enableVideo": True
-#     })
-#
-#     print("🟡 Используем удаленный веб-драйвер через Selenoid")  # Проверка
-#
-#     driver = webdriver.Remote(
-#         command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
-#         options=options
-#     )
-#     browser = Browser(Config(driver=driver))
-#     yield browser
-#
-#     attach.add_screenshot(browser)
-#     attach.add_html(browser)
-#     attach.add_logs(browser)
-#     attach.add_video(browser)
-#     browser.quit()
-
-
-
 @pytest.fixture(scope='function')
 def setup_browser():
     """Настраивает и возвращает браузер в selenoid перед тестами."""
     options = Options()
-    # Запускаем локальный браузер
-    driver = webdriver.Chrome(options=options)
-    browser: Browser = Browser(Config(driver=driver))
+    options.set_capability("browserName", "chrome")
+    options.set_capability("browserVersion", "128.0")
+    options.set_capability("selenoid:options", {
+        "enableVNC": True,
+        "enableVideo": True
+    })
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 
-    yield browser  # Возвращаем browser в тест
+    print("🟡 Используем удаленный веб-драйвер через Selenoid")  # Проверка
 
-    # Делаем аттачи
-    attach.add_screenshot(browser)   # Аттач скриншота
-    attach.add_html(browser)         # Аттач HTML-кода страницы
-    attach.add_logs(browser)         # Аттач логов браузера
-    attach.add_video(browser)        # Аттач видео (если поддерживается)
+    driver = webdriver.Remote(
+        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        options=options
+    )
+    browser = Browser(Config(driver=driver))
+    yield browser
 
-        # Закрываем браузер после выполнения теста
+    attach.add_screenshot(browser)
+    attach.add_html(browser)
+    attach.add_logs(browser)
+    attach.add_video(browser)
     browser.quit()
 
-load_dotenv()  # Подгружаем переменные из .env
+# @pytest.fixture(scope='function')
+# def setup_browser():
+#     """Настраивает и возвращает браузер в selenoid перед тестами."""
+#     options = Options()
+#     # Запускаем локальный браузер
+#     driver = webdriver.Chrome(options=options)
+#     browser: Browser = Browser(Config(driver=driver))
+#
+#     yield browser  # Возвращаем browser в тест
+#
+#     # Делаем аттачи
+#     attach.add_screenshot(browser)   # Аттач скриншота
+#     attach.add_html(browser)         # Аттач HTML-кода страницы
+#     attach.add_logs(browser)         # Аттач логов браузера
+#     attach.add_video(browser)        # Аттач видео (если поддерживается)
+#
+#         # Закрываем браузер после выполнения теста
+#     browser.quit()
