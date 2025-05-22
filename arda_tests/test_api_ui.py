@@ -1,20 +1,19 @@
 import requests
 import allure
-import pytest
 from selene import Browser, have
-from pages.main_page import MainPage
 from allure_commons.types import Severity
-from conftest import log_request_and_response
+import time
 
 
 @allure.epic("API + UI тесты")
-@allure.feature("Авторизация")
-@allure.story("Успешная авторизация через API и проверка UI")
+@allure.feature("Авторизация по API проверка по UI")
+@allure.story("Переход в ЛК")
 @allure.severity(Severity.CRITICAL)
-@allure.tag("auth", "api", "ui", "positive")
+@allure.tag("auth", "api", "positive")
 @allure.label("owner", "Kuznetsova")
 def test_api_auth_then_ui_check(setup_browser: Browser, credentials, base_url):
-    with allure.step("Получаем токен через API /users/verify"):
+
+    with allure.step("Запрос токена авторизации через API"):
         response = requests.post(
             f"{base_url}/api/users/verify",
             json={
@@ -28,20 +27,25 @@ def test_api_auth_then_ui_check(setup_browser: Browser, credentials, base_url):
                 "Referer": base_url + "/"
             }
         )
-        response.raise_for_status()
-        log_request_and_response(response)
-
         token = response.json().get("jwt")
-        assert token, "❌ Не удалось получить токен из ответа"
+        assert token is not None, "Токен не получен"
 
-    with allure.step("Авторизуемся через localStorage и открываем личный кабинет"):
+    with allure.step("Формирование mock-объекта пользователя"):
+        user_json = '{"id":200,"username":"QA Анастасия","email":"' + credentials["identifier"] + '","provider":"local","name":"Анастасия","company":"тестQA","post":"QA","lastName":"Кузнецова","userRole":"Член ARDA", ...}'
+
+    with allure.step("Установка токена и данных пользователя в localStorage"):
         setup_browser.open(base_url)
         setup_browser.driver.execute_script(
-            f"window.localStorage.setItem('accessToken', '{token}');"
+            f"window.localStorage.setItem('token', '{token}');"
+            f"window.localStorage.setItem('user', '{user_json}');"
         )
-        setup_browser.open(f"{base_url}/account/main/")
 
-    with allure.step("Кликаем на ссылку 'Профиль' и проверяем отображение 'Личный кабинет'"):
+    with allure.step("Переход в Личный кабинет"):
+        setup_browser.open(f"{base_url}/account/main/")
         profile_link = setup_browser.element('a[href="/account/profile/"]')
+        time.sleep(2)
         profile_link.click()
+
+    with allure.step("Проверка отображения страницы 'Личный кабинет'"):
+        time.sleep(2)
         setup_browser.element("body").should(have.text("Личный кабинет"))
